@@ -1,4 +1,5 @@
 package com.pluralsight.module3;
+
 import com.pluralsight.*;
 
 import static org.junit.Assert.*;
@@ -30,7 +31,7 @@ import java.io.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ControllerServlet.class)
-public class Module3_Task6_and_7_IT extends Mockito{
+public class Module3_Task6_and_7_IT extends Mockito {
 	static String tempID = "0";
 	static boolean called_updateBook = false;
 
@@ -40,49 +41,52 @@ public class Module3_Task6_and_7_IT extends Mockito{
 	private Method method = null;
 	private ControllerServlet controllerServlet;
 
-  @Before
-  public void setUp() throws Exception {
+	@Before
+	public void setUp() throws Exception {
 		try {
-			method = Whitebox.getMethod(ControllerServlet.class,
-								"updateBook", HttpServletRequest.class, HttpServletResponse.class);
-		} catch (Exception e) {}
+			method = Whitebox.getMethod(ControllerServlet.class, "updateBook", HttpServletRequest.class,
+					HttpServletResponse.class);
+		} catch (Exception e) {
+		}
 
 		if (method != null) {
-	    controllerServlet = PowerMockito.spy(new ControllerServlet());
+			controllerServlet = PowerMockito.spy(new ControllerServlet());
 
 			request = mock(HttpServletRequest.class);
 			response = mock(HttpServletResponse.class);
 			try {
 				when(request.getPathInfo()).thenReturn("/update");
-				//PowerMockito.doNothing().when(controllerServlet, "updateBook", request, response);
+				// PowerMockito.doNothing().when(controllerServlet, "updateBook", request,
+				// response);
 				when(request.getParameter("id")).thenReturn(tempID);
-			} catch (MethodNotFoundException e) {}
+			} catch (MethodNotFoundException e) {
+			}
 			try {
-			 controllerServlet.doGet(request, response);
-			} catch (Exception e) {}
+				controllerServlet.doGet(request, response);
+			} catch (Exception e) {
+			}
 		}
-  }
+	}
 
-		// Verify updateBook() exists in ControllerServlet
-		@Test
-		public void _task6() throws Exception {
-			String errorMsg = "private void updateBook() does not exist in ControllerServlet";
-			assertNotNull(errorMsg, method);
+	// Verify updateBook() exists in ControllerServlet
+	@Test
+	public void _task6() throws Exception {
+		String errorMsg = "private void updateBook() does not exist in ControllerServlet";
+		assertNotNull(errorMsg, method);
+	}
+
+	@Test
+	public void _task7() throws Exception {
+		String errorMsg = "private void updateBook() does not exist in ControllerServlet";
+		assertNotNull(errorMsg, method);
+
+		try {
+			PowerMockito.verifyPrivate(controllerServlet).invoke("updateBook", request, response);
+			called_updateBook = true;
+		} catch (Throwable e) {
 		}
 
-    @Test
-    public void _task7() throws Exception {
-			String errorMsg = "private void updateBook() does not exist in ControllerServlet";
-			assertNotNull(errorMsg, method);
-
-		  try {
-				PowerMockito.verifyPrivate(controllerServlet)
-										.invoke("updateBook", request, response);
-				called_updateBook = true;
-		  } catch (Throwable e) {}
-
-			errorMsg = "After action \"" + "/update" +
-												"\", did not call updateBook().";
-			assertTrue(errorMsg, called_updateBook);
-    }
+		errorMsg = "After action \"" + "/update" + "\", did not call updateBook().";
+		assertTrue(errorMsg, called_updateBook);
+	}
 }

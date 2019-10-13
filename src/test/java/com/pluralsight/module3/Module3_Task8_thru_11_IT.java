@@ -1,4 +1,5 @@
 package com.pluralsight.module3;
+
 import com.pluralsight.*;
 
 import static org.junit.Assert.*;
@@ -27,15 +28,15 @@ import org.powermock.reflect.Whitebox;
 
 import java.io.*;
 
-public class Module3_Task8_thru_11_IT extends Mockito{
+public class Module3_Task8_thru_11_IT extends Mockito {
 
 	static StringWriter stringWriter = new StringWriter();
 	static String tempIDStr = "1";
-  static int tempID = 1;
-  static String tempTitle = "1984";
-  static String tempAuthor = "George Orwell";
-  static String tempPriceStr = "1.50";
-  static float tempPrice = 1.50f;
+	static int tempID = 1;
+	static String tempTitle = "1984";
+	static String tempAuthor = "George Orwell";
+	static String tempPriceStr = "1.50";
+	static float tempPrice = 1.50f;
 
 	static boolean called_getId = false;
 	static boolean called_getTitle = false;
@@ -49,14 +50,14 @@ public class Module3_Task8_thru_11_IT extends Mockito{
 	static Method updateMethod = null;
 
 	@Mock
-  private BookDAO mockBookDAO;
+	private BookDAO mockBookDAO;
 
-  @InjectMocks
-  private ControllerServlet controllerServlet;
+	@InjectMocks
+	private ControllerServlet controllerServlet;
 
-  @Before
-  public void setUp() throws Exception {
-    MockitoAnnotations.initMocks(this);
+	@Before
+	public void setUp() throws Exception {
+		MockitoAnnotations.initMocks(this);
 
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -68,102 +69,101 @@ public class Module3_Task8_thru_11_IT extends Mockito{
 		when(request.getParameter("bookauthor")).thenReturn(tempAuthor);
 		when(request.getParameter("bookprice")).thenReturn(tempPriceStr);
 
-
 		try {
-			updateMethod = Whitebox.getMethod(ControllerServlet.class,
-								"updateBook", HttpServletRequest.class, HttpServletResponse.class);
-		} catch (Exception e) {}
+			updateMethod = Whitebox.getMethod(ControllerServlet.class, "updateBook", HttpServletRequest.class,
+					HttpServletResponse.class);
+		} catch (Exception e) {
+		}
 
-		// String errorMsg = "private void updateBook() does not exist in ControllerServlet";
+		// String errorMsg = "private void updateBook() does not exist in
+		// ControllerServlet";
 		// assertNotNull(errorMsg, updateMethod);
 
 		if (updateMethod != null) {
 			try {
-			 controllerServlet.doGet(request, response);
-			} catch (Exception e) {}
+				controllerServlet.doGet(request, response);
+			} catch (Exception e) {
+			}
 		}
-  }
+	}
 
-    @Test
-    public void _task8() throws Exception {
-			String errorMsg = "private void updateBook() does not exist in ControllerServlet";
-			assertNotNull(errorMsg, updateMethod);
+	@Test
+	public void _task8() throws Exception {
+		String errorMsg = "private void updateBook() does not exist in ControllerServlet";
+		assertNotNull(errorMsg, updateMethod);
 
-			try {
-         verify(request).getParameter("id");
-         called_getId = true;
-       } catch (Throwable e) {}
+		try {
+			verify(request).getParameter("id");
+			called_getId = true;
+		} catch (Throwable e) {
+		}
 
-       errorMsg = "After action \"" + "/update" +
-                         "\", did not call getParameter(\"id\").";
-       assertTrue(errorMsg, called_getId);
-    }
+		errorMsg = "After action \"" + "/update" + "\", did not call getParameter(\"id\").";
+		assertTrue(errorMsg, called_getId);
+	}
 
-		@Test
-    public void _task9() throws Exception {
-			String errorMsg = "private void updateBook() does not exist in ControllerServlet";
-			assertNotNull(errorMsg, updateMethod);
+	@Test
+	public void _task9() throws Exception {
+		String errorMsg = "private void updateBook() does not exist in ControllerServlet";
+		assertNotNull(errorMsg, updateMethod);
 
-			try {
-         verify(request).getParameter("booktitle");
-         called_getTitle = true;
-         verify(request).getParameter("bookauthor");
-         called_getAuthor = true;
-				 verify(request).getParameter("bookprice");
-         called_getPrice = true;
-       } catch (Throwable e) {}
+		try {
+			verify(request).getParameter("booktitle");
+			called_getTitle = true;
+			verify(request).getParameter("bookauthor");
+			called_getAuthor = true;
+			verify(request).getParameter("bookprice");
+			called_getPrice = true;
+		} catch (Throwable e) {
+		}
 
-       errorMsg = "After action \"" + "/update" +
-                         "\", did not call getParameter(\"booktitle\").";
-       assertTrue(errorMsg, called_getTitle);
-       errorMsg = "After action \"" + "/update" +
-                         "\", did not call getParameter(\"bookauthor\").";
-       assertTrue(errorMsg, called_getAuthor);
-			 errorMsg = "After action \"" + "/update" +
-                         "\", did not call getParameter(\"bookprice\").";
-       assertTrue(errorMsg, called_getPrice);
-    }
+		errorMsg = "After action \"" + "/update" + "\", did not call getParameter(\"booktitle\").";
+		assertTrue(errorMsg, called_getTitle);
+		errorMsg = "After action \"" + "/update" + "\", did not call getParameter(\"bookauthor\").";
+		assertTrue(errorMsg, called_getAuthor);
+		errorMsg = "After action \"" + "/update" + "\", did not call getParameter(\"bookprice\").";
+		assertTrue(errorMsg, called_getPrice);
+	}
 
-		@Test
-    public void _task10() throws Exception {
-			String errorMsg = "private void updateBook() does not exist in ControllerServlet";
-			assertNotNull(errorMsg, updateMethod);
+	@Test
+	public void _task10() throws Exception {
+		String errorMsg = "private void updateBook() does not exist in ControllerServlet";
+		assertNotNull(errorMsg, updateMethod);
 
-			Method method = null;
-			try {
-				 method =  BookDAO.class.getMethod("updateBook", Book.class);
-			} catch (NoSuchMethodException e) {
-				 //e.printStackTrace();
-			}
+		Method method = null;
+		try {
+			method = BookDAO.class.getMethod("updateBook", Book.class);
+		} catch (NoSuchMethodException e) {
+			// e.printStackTrace();
+		}
 
-			errorMsg = "The method updateBook() doesn't exist in BookDAO.java.";
-			assertNotNull(errorMsg, method);
+		errorMsg = "The method updateBook() doesn't exist in BookDAO.java.";
+		assertNotNull(errorMsg, method);
 
-			MockingDetails mockingDetails = Mockito.mockingDetails(mockBookDAO);
+		MockingDetails mockingDetails = Mockito.mockingDetails(mockBookDAO);
 
-			Collection<Invocation> invocations = mockingDetails.getInvocations();
+		Collection<Invocation> invocations = mockingDetails.getInvocations();
 
-			List<String> methodsCalled = new ArrayList<>();
-			for (Invocation anInvocation : invocations) {
-				methodsCalled.add(anInvocation.getMethod().getName());
-			}
-			errorMsg = "After action \"" + "/update" +
-												"\", did not updateBook(newBookObject).";
-			assertTrue(errorMsg, methodsCalled.contains("updateBook"));
-    }
+		List<String> methodsCalled = new ArrayList<>();
+		for (Invocation anInvocation : invocations) {
+			methodsCalled.add(anInvocation.getMethod().getName());
+		}
+		errorMsg = "After action \"" + "/update" + "\", did not updateBook(newBookObject).";
+		assertTrue(errorMsg, methodsCalled.contains("updateBook"));
+	}
 
-		@Test
-    public void _task11() throws Exception {
-			String errorMsg = "private void updateBook() does not exist in ControllerServlet";
-			assertNotNull(errorMsg, updateMethod);
+	@Test
+	public void _task11() throws Exception {
+		String errorMsg = "private void updateBook() does not exist in ControllerServlet";
+		assertNotNull(errorMsg, updateMethod);
 
-			try {
-         verify(response).sendRedirect("list");
-         called_sendRedirect = true;
-       } catch (Throwable e) {}
+		try {
+			verify(response).sendRedirect("list");
+			called_sendRedirect = true;
+		} catch (Throwable e) {
+		}
 
-       errorMsg = "In ControllerServlet updateBook()," +
-                         " did not call sendRedirect(\"list\").";
-       assertTrue(errorMsg, called_sendRedirect);
-    }
+		errorMsg = "In ControllerServlet updateBook()," + " did not call sendRedirect(\"list\").";
+		assertTrue(errorMsg, called_sendRedirect);
+	}
 }
